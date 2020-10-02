@@ -38,7 +38,7 @@ function ProductList({
     viewingDate,
     productSortBy,
 }: ProductListProps): JSX.Element {
-    const [noFiltersApplied, setNoFiltersApplied] = useState<boolean>(false);
+    let noFiltersApplied: boolean;
     const [filteredProductsLoaded, setFilteredProductsLoaded] = useState<boolean>(false);
 
     useEffect(() => {
@@ -46,7 +46,7 @@ function ProductList({
             const numberOfSelectedLocationFilters = getSelectedFilterLabels(allGroupedTagFilterOptions[0].options).length;
             const numberOfSelectedProductTagFilters = getSelectedFilterLabels(allGroupedTagFilterOptions[1].options).length;
             const totalNumberOfFiltersApplied = numberOfSelectedLocationFilters + numberOfSelectedProductTagFilters;
-            setNoFiltersApplied(totalNumberOfFiltersApplied === 0);
+            noFiltersApplied = totalNumberOfFiltersApplied === 0;
             setFilteredProductsLoaded(true);
         }
     }, [allGroupedTagFilterOptions]);
@@ -85,7 +85,6 @@ function ProductList({
             const filteredAndActiveProduct = products
                 .filter(product => noFiltersApplied || permittedByFilters(product))
                 .filter(isActiveProduct);
-
             switch (productSortBy) {
                 case 'name' : {
                     return <SortedByList

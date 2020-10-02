@@ -168,12 +168,11 @@ export const fetchProductsAction: ActionCreator<ThunkAction<void, Function, null
             getState().currentSpace.uuid,
             getState().viewingDate
         ).then(result => {
-            const products: Array<Product> = result.data || [];
-            dispatch(setProductsAction(products));
-
             const savedSort = localStorage.getItem('sortBy');
             const sort = savedSort !== null && savedSort !== undefined ? savedSort : 'name';
             dispatch(setProductSortByAction(sort));
+            const products: Array<Product> = result.data || [];
+            dispatch(setProductsAction(products));
         });
     };
 
