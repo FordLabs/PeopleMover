@@ -19,22 +19,22 @@ import {Color, SpaceRole} from '../Roles/Role';
 import React, {useEffect, useState} from 'react';
 import ColorClient from '../Roles/ColorClient';
 import {AxiosResponse} from 'axios';
-import {Trait} from './Trait';
-import {TraitAddRequest} from './TraitAddRequest';
-import {TraitClient} from './TraitClient';
-import {TraitEditRequest} from './TraitEditRequest';
+import {Tag} from '../Tags/Tag';
+import {TagAddRequest} from '../Tags/TagAddRequest';
+import {TagClient} from '../Tags/TagClient';
+import {TagEditRequest} from '../Tags/TagEditRequest';
+import {TraitNameType} from '../Traits/MyTraits';
 import {RoleAddRequest} from '../Roles/RoleAddRequest';
 import {RoleEditRequest} from '../Roles/RoleEditRequest';
 import {Space} from '../Space/Space';
-import SaveIcon from './saveIcon.png';
-import CloseIcon from './closeIcon.png';
+import SaveIcon from '../Application/Assets/saveIcon.png';
+import CloseIcon from '../Application/Assets/closeIcon.png';
 import {JSX} from '@babel/types';
-import ColorCircle from '../TagsForm/ColorCircle';
+import ColorCircle from '../ModalFormComponents/ColorCircle';
 import Select, {OptionType} from '../ModalFormComponents/Select';
-import {TraitNameType} from './MyTraits';
+import {createDataTestId} from '../tests/TestUtils';
 
 import '../Traits/MyTraits.scss';
-import {createDataTestId} from '../tests/TestUtils';
 
 const colorMapping: { [key: string]: string } = {
     '#81C0FA': 'Blue',
@@ -50,15 +50,15 @@ const colorMapping: { [key: string]: string } = {
 
 interface EditTraitSectionProps {
     closeCallback: () => void;
-    updateCallback: (newRole: Trait) => void;
-    trait?: Trait;
+    updateCallback: (newRole: Tag) => void;
+    trait?: Tag;
     colorSection: boolean;
-    traitClient: TraitClient;
+    traitClient: TagClient;
     traitName: TraitNameType;
     currentSpace: Space;
 }
 
-function EditTraitSection({
+function EditTagRow({
     closeCallback,
     updateCallback,
     trait,
@@ -69,7 +69,7 @@ function EditTraitSection({
 }: EditTraitSectionProps): JSX.Element {
     const [colors, setColors] = useState<Array<Color>>([]);
     const [selectedColor, setSelectedColor] = useState<Color>();
-    const [enteredTrait, setEnteredTrait] = useState<TraitAddRequest>();
+    const [enteredTrait, setEnteredTrait] = useState<TagAddRequest>();
     const [duplicateErrorMessage, setDuplicateErrorMessage] = useState<boolean>(false);
     const traitNameClass = traitName.replace(' ', '_');
 
@@ -94,7 +94,7 @@ function EditTraitSection({
                     }
                 });
             } else {
-                const traitAddRequest: TraitAddRequest = {
+                const traitAddRequest: TagAddRequest = {
                     name: trait ? trait.name : '',
                 };
                 setEnteredTrait(traitAddRequest);
@@ -118,7 +118,7 @@ function EditTraitSection({
             let clientResponse: AxiosResponse;
             try {
                 if (trait) {
-                    let editRequest: TraitEditRequest = {
+                    let editRequest: TagEditRequest = {
                         id: trait.id,
                         updatedName: enteredTrait.name,
                     };
@@ -138,7 +138,7 @@ function EditTraitSection({
                 }
                 return;
             }
-            const newTrait: Trait = clientResponse.data;
+            const newTrait: Tag = clientResponse.data;
             updateCallback(newTrait);
             closeCallback();
         }
@@ -222,4 +222,4 @@ function EditTraitSection({
     );
 }
 
-export default EditTraitSection;
+export default EditTagRow;
