@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import React, {useEffect, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import EditTagRow from '../ModalFormComponents/EditTagRow';
 import ConfirmationModal, {ConfirmationModalProps} from '../Modal/ConfirmationModal';
 import {JSX} from '@babel/types';
@@ -39,6 +39,8 @@ export type TitleType = 'Location Tags' | 'Product Tags';
 export type TraitType = 'product' | 'person'
 
 interface MyTraitsProps {
+    children: ReactNode;
+
     currentSpace: Space;
     title?: TitleType;
     traitClient: TagClient;
@@ -56,6 +58,8 @@ enum TraitAction {
 }
 
 function MyTraits({
+    children,
+
     currentSpace,
     title,
     traitClient,
@@ -287,26 +291,7 @@ function MyTraits({
         <div data-testid={createDataTestId('tagsModalContainer', traitName)}
             className="myTraitsModalContainer">
             {!colorSection && <div className="title"> {title}</div>}
-            {traits.map((trait: Tag, index: number) => {
-                return (
-                    <React.Fragment key={index}>
-                        {!editSectionsOpen[index] &&
-                            <ViewTraitRow trait={trait} index={index}/>
-                        }
-                        {editSectionsOpen[index] &&
-                            <EditTagRow
-                                closeCallback={(): void => toggleEditSection(index)}
-                                updateCallback={updateTraits}
-                                trait={trait}
-                                colorSection={colorSection}
-                                traitClient={traitClient}
-                                traitName={traitName}
-                                currentSpace={currentSpace}
-                            />
-                        }
-                    </React.Fragment>
-                );
-            })}
+            {children}
             <AddNewTagRow />
             {confirmDeleteModal}
         </div>
