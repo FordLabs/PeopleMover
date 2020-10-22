@@ -136,10 +136,17 @@ function MyTagsForm({ currentSpace, allGroupedTagFilterOptions }: Props): JSX.El
             setConfirmDeleteModal(deleteConfirmationModal);
         };
 
+        const onSave = (location: Tag): void => {
+            // edit location
+        };
+
+        const onChange = (location: Tag): void => {
+            // update input value
+        };
+
         return (
             <TagRowsContainer
-                traitType="product"
-                traitName="location"
+                addNewButtonLabel="Location"
                 confirmDeleteModal={confirmDeleteModal}
             >
                 <div className="title">Location Tags</div>
@@ -157,6 +164,9 @@ function MyTagsForm({ currentSpace, allGroupedTagFilterOptions }: Props): JSX.El
                             }
                             {editLocationIndex === index &&
                                <EditTagRow
+                                   onChange={(): void => onChange(location)}
+                                   onSave={(): void => onSave(location)}
+
                                    closeCallback={(): void => toggleEditSection(index)}
                                    updateCallback={updateTraits}
                                    trait={location}
@@ -222,13 +232,18 @@ function MyTagsForm({ currentSpace, allGroupedTagFilterOptions }: Props): JSX.El
             setConfirmDeleteModal(deleteConfirmationModal);
         };
 
+        const onSave = (productTag: Tag): void => {
+            // edit productTag
+        };
+
+        const onChange = (productTag: Tag): void => {
+            // update input value
+        };
+
         return (
             <TagRowsContainer
-                traitClient={ProductTagClient}
-                traitType="product"
-                traitName="product tag"
-                confirmDeleteModal={confirmDeleteModal}
-            >
+                addNewButtonLabel="Product Tag"
+                confirmDeleteModal={confirmDeleteModal} >
                 <div className="title">Product Tags</div>
                 {productTags.map((productTag: Tag, index: number) => {
                     return (
@@ -244,6 +259,9 @@ function MyTagsForm({ currentSpace, allGroupedTagFilterOptions }: Props): JSX.El
                             }
                             {editProductTagIndex === index &&
                                 <EditTagRow
+                                    onChange={(): void => onChange(productTag)}
+                                    onSave={(): void => onSave(productTag)}
+
                                     closeCallback={(): void => toggleEditSection(index)}
                                     updateCallback={updateTraits}
                                     trait={productTag}
