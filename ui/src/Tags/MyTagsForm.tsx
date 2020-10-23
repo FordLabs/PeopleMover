@@ -259,8 +259,8 @@ function MyTagsForm({ currentSpace, allGroupedTagFilterOptions }: Props): JSX.El
             setConfirmDeleteModal(deleteConfirmationModal);
         };
 
-        const onSave = (productTag: Tag): void => {
-            // edit productTag
+        const onSave = (productTag: string): void => {
+            console.log('SAVE PRODUCT TAG: ', productTag);
         };
 
         const onCancel = (): void => {
@@ -298,6 +298,7 @@ function MyTagsForm({ currentSpace, allGroupedTagFilterOptions }: Props): JSX.El
                 <AddNewTagRow
                     addNewButtonLabel="Product Tag"
                     testIdSuffix={testIdSuffix}
+                    onSave={onSave}
                 />
                 {confirmDeleteModal}
             </div>

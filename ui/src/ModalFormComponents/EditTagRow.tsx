@@ -29,7 +29,7 @@ export type TagNameType = 'Role' | 'Product Tag' | 'Location'
 interface Props {
     colorDropdown?: ReactNode;
     defaultInputValue?: string;
-    onSave: (value: unknown) => void;
+    onSave: (value: string) => void;
     onCancel: () => void;
     tagName: TagNameType;
     testIdSuffix: TagType;
