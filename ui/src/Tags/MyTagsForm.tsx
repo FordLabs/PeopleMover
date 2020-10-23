@@ -160,12 +160,9 @@ function MyTagsForm({ currentSpace, allGroupedTagFilterOptions }: Props): JSX.El
             setConfirmDeleteModal(deleteConfirmationModal);
         };
 
-        const onSave = (location: Tag): void => {
+        const onSave = (location: string): void => {
+            console.log(location)
             // edit location
-        };
-
-        const onChange = (location: Tag): void => {
-            // update input value
         };
 
         const onCancel = (): void => {
@@ -190,8 +187,8 @@ function MyTagsForm({ currentSpace, allGroupedTagFilterOptions }: Props): JSX.El
                             }
                             {editLocationIndex === index &&
                                <EditTagRow
-                                   defaultInputValue=""
-                                   onSave={(): void => onSave(location)}
+                                   defaultInputValue={location.name}
+                                   onSave={onSave}
                                    onCancel={onCancel}
                                    tagName="Location"
                                    testIdSuffix={testIdSuffix}
@@ -203,6 +200,7 @@ function MyTagsForm({ currentSpace, allGroupedTagFilterOptions }: Props): JSX.El
                 <AddNewTagRow
                     addNewButtonLabel="Location"
                     testIdSuffix={testIdSuffix}
+                    onSave={onSave}
                 />
                 {confirmDeleteModal}
             </div>
@@ -285,8 +283,8 @@ function MyTagsForm({ currentSpace, allGroupedTagFilterOptions }: Props): JSX.El
                             }
                             {editProductTagIndex === index &&
                                 <EditTagRow
-                                    defaultInputValue=""
-                                    onSave={(): void => onSave(productTag)}
+                                    defaultInputValue={productTag.name}
+                                    onSave={onSave}
                                     onCancel={onCancel}
                                     tagName="Product Tag"
                                     testIdSuffix={testIdSuffix}
