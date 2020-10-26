@@ -20,33 +20,31 @@ import SaveIcon from '../Application/Assets/saveIcon.png';
 import CloseIcon from '../Application/Assets/closeIcon.png';
 import {JSX} from '@babel/types';
 import {createDataTestId} from '../tests/TestUtils';
+import {TagNameType, TagType} from './TagForms.types';
+import {TagRequest} from '../Tags/TagRequest.interface';
 
 import './TagRowsContainer.scss';
 
-export type TagType = 'role' | 'product tag' | 'location';
-export type TagNameType = 'Role' | 'Product Tag' | 'Location'
-
 interface Props {
     colorDropdown?: ReactNode;
-    defaultInputValue?: string;
-    onSave: (value: string) => void;
+    initialValue?: TagRequest;
+    onSave: (value: TagRequest) => Promise<unknown>;
     onCancel: () => void;
     tagName: TagNameType;
     testIdSuffix: TagType;
-    showErrorMessage?: boolean;
 }
 
 function EditTagRow({
     colorDropdown,
     tagName,
-    defaultInputValue = '',
+    initialValue = { name: '' },
     testIdSuffix,
     onSave,
     onCancel,
-    showErrorMessage,
 }: Props): JSX.Element {
     const traitNameClass = testIdSuffix.replace(' ', '_');
-    const [tagInputValue, setTagInputValue] = useState<string>(defaultInputValue);
+    const [tagInputValue, setTagInputValue] = useState<TagRequest>(initialValue);
+    const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
 
     // useEffect(() => {
     //     let mounted = false;
@@ -69,7 +67,7 @@ function EditTagRow({
     //         //         }
     //         //     });
     //         // } else {
-    //         const traitAddRequest: TagAddRequest = {
+    //         const traitAddRequest: TagAddRequestInterface = {
     //             name: trait ? trait.name : '',
     //         };
     //         setTagInputValue(traitAddRequest);
@@ -88,7 +86,7 @@ function EditTagRow({
     //         let clientResponse: AxiosResponse;
     //         try {
     //             if (trait) {
-    //                 let editRequest: TagEditRequest = {
+    //                 let editRequest: TagEditRequestInterface = {
     //                     id: trait.id,
     //                     updatedName: tagInputValue.name,
     //                 };
@@ -122,15 +120,26 @@ function EditTagRow({
     //     }));
     // }
 
+    const saveTag = (tagValue: TagRequest): void => {
+        onSave(tagValue).catch((error) => {
+            if (error.response.status === 409) {
+                setShowErrorMessage(true);
+            }
+        });
+    };
+
     const handleEnterSubmit = (event: React.KeyboardEvent): void => {
         if (event.key === 'Enter') {
-            onSave(tagInputValue);
+            saveTag(tagInputValue);
         }
     };
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const newInputValue = event.target.value;
-        setTagInputValue(newInputValue);
+        setTagInputValue({
+            id: initialValue.id,
+            name: newInputValue,
+        });
     };
 
     return (
@@ -141,7 +150,7 @@ function EditTagRow({
                 <input className={`editTagInput ${traitNameClass}`}
                     data-testid="tagNameInput"
                     type="text"
-                    value={tagInputValue}
+                    value={tagInputValue.name}
                     onChange={handleOnChange}
                     onKeyPress={handleEnterSubmit}/>
                 <div className="traitEditIcons">
@@ -152,7 +161,7 @@ function EditTagRow({
                         <img src={CloseIcon} alt=""/>
                     </button>
                     <button disabled={!tagInputValue}
-                        onClick={() => onSave(tagInputValue)}
+                        onClick={(): void => saveTag(tagInputValue)}
                         data-testid="saveTagButton"
                         className="saveEditTagButton"
                         aria-label="Save Edited Tag">
