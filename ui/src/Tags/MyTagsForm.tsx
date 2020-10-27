@@ -87,7 +87,7 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
     };
 
     const LocationTags = (): JSX.Element => {
-        const testIdSuffix = 'location';
+        const tagType = 'location';
         const [locations, setLocations] = useState<Array<Tag>>([]);
         const [editLocationIndex, setEditLocationIndex] = useState<number>(INACTIVE_EDIT_STATE_INDEX);
         const [confirmDeleteModal, setConfirmDeleteModal] = useState<JSX.Element | null>(null);
@@ -173,37 +173,35 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
         };
 
         return (
-            <div data-testid={createDataTestId('tagsModalContainer', testIdSuffix)}
+            <div data-testid={createDataTestId('tagsModalContainer', tagType)}
                 className="myTraitsModalContainer">
                 <div className="title">Location Tags</div>
                 {locations.map((location: Tag, index: number) => {
                     return (
                         <React.Fragment key={index}>
-                            {editLocationIndex !== index &&
-                            <ViewTagRow
-                                testIdSuffix={testIdSuffix}
-                                tag={location}
-                                setConfirmDeleteModal={(): void => showDeleteConfirmationModal(location)}
-                                showEditButtons={editLocationIndex === INACTIVE_EDIT_STATE_INDEX}
-                                editTagCallback={(): void => setEditLocationIndex(index)}
-                            />
+                            {showViewState(index) &&
+                                <ViewTagRow
+                                    tagType={tagType}
+                                    tag={location}
+                                    setConfirmDeleteModal={(): void => showDeleteConfirmationModal(location)}
+                                    showEditButtons={showEditButtons()}
+                                    editTagCallback={(): void => setEditLocationIndex(index)}
+                                />
                             }
-                            {editLocationIndex === index &&
-                            <EditTagRow
-                                initialValue={location}
-                                onSave={editLocation}
-                                onCancel={onCancel}
-                                tagName="Location"
-                                testIdSuffix={testIdSuffix}
-                            />
+                            {showEditState(index) &&
+                                <EditTagRow
+                                    initialValue={location}
+                                    onSave={editLocation}
+                                    onCancel={onCancel}
+                                    tagType={tagType}
+                                />
                             }
                         </React.Fragment>
                     );
                 })}
                 <AddNewTagRow
                     addNewButtonLabel="Location"
-                    tagName="Location"
-                    testIdSuffix={testIdSuffix}
+                    tagType={tagType}
                     onSave={addLocation}
                 />
                 {confirmDeleteModal}
@@ -212,7 +210,7 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
     };
 
     const ProductTags = (): JSX.Element => {
-        const testIdSuffix = 'product tag';
+        const tagType = 'product tag';
         const [productTags, setProductTags] = useState<Array<Tag>>([]);
         const [editProductTagIndex, setEditProductTagIndex] = useState<number>(INACTIVE_EDIT_STATE_INDEX);
         const [confirmDeleteModal, setConfirmDeleteModal] = useState<JSX.Element | null>(null);
@@ -300,7 +298,7 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
         };
 
         return (
-            <div data-testid={createDataTestId('tagsModalContainer', testIdSuffix)}
+            <div data-testid={createDataTestId('tagsModalContainer', tagType)}
                 className="myTraitsModalContainer">
                 <div className="title">Product Tags</div>
                 {productTags.map((productTag: Tag, index: number) => {
@@ -308,7 +306,7 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
                         <React.Fragment key={index}>
                             {editProductTagIndex !== index &&
                                 <ViewTagRow
-                                    testIdSuffix={testIdSuffix}
+                                    tagType={tagType}
                                     tag={productTag}
                                     setConfirmDeleteModal={(): void => showDeleteConfirmationModal(productTag)}
                                     showEditButtons={editProductTagIndex === INACTIVE_EDIT_STATE_INDEX}
@@ -320,8 +318,7 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
                                     initialValue={productTag}
                                     onSave={editProductTag}
                                     onCancel={onCancel}
-                                    tagName="Product Tag"
-                                    testIdSuffix={testIdSuffix}
+                                    tagType={tagType}
                                 />
                             }
                         </React.Fragment>
@@ -329,9 +326,8 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
                 })}
                 <AddNewTagRow
                     addNewButtonLabel="Product Tag"
-                    testIdSuffix={testIdSuffix}
+                    tagType={tagType}
                     onSave={addProductTag}
-                    tagName="Product Tag"
                 />
                 {confirmDeleteModal}
             </div>

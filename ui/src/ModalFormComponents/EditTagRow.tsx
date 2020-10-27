@@ -20,7 +20,7 @@ import SaveIcon from '../Application/Assets/saveIcon.png';
 import CloseIcon from '../Application/Assets/closeIcon.png';
 import {JSX} from '@babel/types';
 import {createDataTestId} from '../tests/TestUtils';
-import {TagNameType, TagType} from './TagForms.types';
+import {TagType} from './TagForms.types';
 import {TagRequest} from '../Tags/TagRequest.interface';
 
 import './TagRowsContainer.scss';
@@ -30,95 +30,20 @@ interface Props {
     initialValue?: TagRequest;
     onSave: (value: TagRequest) => Promise<unknown>;
     onCancel: () => void;
-    tagName: TagNameType;
-    testIdSuffix: TagType;
+    tagType: TagType;
 }
 
 function EditTagRow({
     colorDropdown,
-    tagName,
+    tagType,
     initialValue = { name: '' },
-    testIdSuffix,
     onSave,
     onCancel,
 }: Props): JSX.Element {
-    const tagNameClass = testIdSuffix.replace(' ', '_');
+    const testIdSuffix = tagType;
+    const tagNameClass = tagType.replace(' ', '_');
     const [tagInputValue, setTagInputValue] = useState<TagRequest>(initialValue);
     const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
-
-    // useEffect(() => {
-    //     let mounted = false;
-    //     async function setColorsAndTraits(): Promise<void> {
-    //         // if (colorSection) {
-    //         //     ColorClient.getAllColors().then(response => {
-    //         //         if (mounted) {
-    //         //             const colors: Array<Color> = response.data;
-    //         //             setColors(colors);
-    //         //
-    //         //             const spaceRole: SpaceRole = trait as SpaceRole;
-    //         //
-    //         //             const roleColor = spaceRole && spaceRole.color ? spaceRole.color : colors[colors.length - 1];
-    //         //             const roleAddRequest: RoleAddRequest = {
-    //         //                 name: spaceRole ? spaceRole.name : '',
-    //         //                 colorId: roleColor.id,
-    //         //             };
-    //         //             setSelectedColor(roleColor);
-    //         //             setEnteredTrait(roleAddRequest);
-    //         //         }
-    //         //     });
-    //         // } else {
-    //         const traitAddRequest: TagAddRequestInterface = {
-    //             name: trait ? trait.name : '',
-    //         };
-    //         setTagInputValue(traitAddRequest);
-    //         // }
-    //     }
-
-    //     mounted = true;
-    //     setColorsAndTraits().then();
-    //     return (): void => {mounted = false;};
-    // }, [colorSection, trait]);
-
-    // @TODO FIX THIS NOW
-    // async function handleSubmit(): Promise<void> {
-    //     setDuplicateErrorMessage(false);
-    //     if (tagInputValue && tagInputValue.name !== '') {
-    //         let clientResponse: AxiosResponse;
-    //         try {
-    //             if (trait) {
-    //                 let editRequest: TagEditRequestInterface = {
-    //                     id: trait.id,
-    //                     updatedName: tagInputValue.name,
-    //                 };
-    //                 if (colorSection) {
-    //                     editRequest = {
-    //                         ...editRequest,
-    //                         updatedColorId: (tagInputValue as RoleAddRequest).colorId,
-    //                     } as RoleEditRequest;
-    //                 }
-    //                 clientResponse = await traitClient.edit(editRequest, currentSpace.uuid!!);
-    //             } else {
-    //                 clientResponse = await traitClient.add(tagInputValue, currentSpace.uuid!!);
-    //             }
-    //         } catch (error) {
-    //             if (error.response.status === 409) {
-    //                 setDuplicateErrorMessage(true);
-    //             }
-    //             return;
-    //         }
-    //         const newTrait: Tag = clientResponse.data;
-    //         updateCallback(newTrait);
-    //         closeCallback();
-    //     }
-    // }
-
-    // function updateEnteredRoleText(event: React.ChangeEvent<HTMLInputElement>): void {
-    //     const input: string = event.target ? event.target.value : '';
-    //     setTagInputValue(prevEnteredTrait => ({
-    //         ...prevEnteredTrait,
-    //         name: input,
-    //     }));
-    // }
 
     const saveTag = (tagValue: TagRequest): void => {
         onSave(tagValue).catch((error) => {
@@ -129,17 +54,15 @@ function EditTagRow({
     };
 
     const handleEnterSubmit = (event: React.KeyboardEvent): void => {
-        if (event.key === 'Enter') {
-            saveTag(tagInputValue);
-        }
+        if (event.key === 'Enter') saveTag(tagInputValue);
     };
 
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const newInputValue = event.target.value;
-        setTagInputValue({
+        const newInputValue = {
             id: initialValue.id,
-            name: newInputValue,
-        });
+            name: event.target.value,
+        };
+        setTagInputValue(newInputValue);
     };
 
     return (
@@ -171,7 +94,7 @@ function EditTagRow({
             </div>
             {showErrorMessage && (
                 <div className="duplicateErrorMessage">
-                    A {tagName} with this name already exists. Enter a different name.
+                    A {tagType} with this name already exists. Enter a different name.
                 </div>
             )}
         </>
