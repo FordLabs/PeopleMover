@@ -91,6 +91,7 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
         const [locations, setLocations] = useState<Array<Tag>>([]);
         const [editLocationIndex, setEditLocationIndex] = useState<number>(INACTIVE_EDIT_STATE_INDEX);
         const [confirmDeleteModal, setConfirmDeleteModal] = useState<JSX.Element | null>(null);
+        const [isAddingNewTag, setIsAddingNewTag] = useState<boolean>(false);
 
         useEffect(() => {
             async function setup(): Promise<void> {
@@ -172,7 +173,7 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
             returnToViewState();
         };
 
-        const showEditButtons = (): boolean => editLocationIndex === INACTIVE_EDIT_STATE_INDEX;
+        const showEditButtons = (): boolean => editLocationIndex === INACTIVE_EDIT_STATE_INDEX && !isAddingNewTag;
 
         const showViewState = (index: number): boolean => editLocationIndex !== index;
 
@@ -207,8 +208,10 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
                 })}
                 <AddNewTagRow
                     addNewButtonLabel="Location"
+                    disabled={!showEditButtons()}
                     tagType={tagType}
                     onSave={addLocation}
+                    onAddingTag={setIsAddingNewTag}
                 />
                 {confirmDeleteModal}
             </div>
@@ -220,6 +223,7 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
         const [productTags, setProductTags] = useState<Array<Tag>>([]);
         const [editProductTagIndex, setEditProductTagIndex] = useState<number>(INACTIVE_EDIT_STATE_INDEX);
         const [confirmDeleteModal, setConfirmDeleteModal] = useState<JSX.Element | null>(null);
+        const [isAddingNewTag, setIsAddingNewTag] = useState<boolean>(false);
 
         useEffect(() => {
             async function setup(): Promise<void> {
@@ -303,7 +307,7 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
             returnToViewState();
         };
 
-        const showEditButtons = (): boolean => editProductTagIndex === INACTIVE_EDIT_STATE_INDEX;
+        const showEditButtons = (): boolean => editProductTagIndex === INACTIVE_EDIT_STATE_INDEX && !isAddingNewTag;
         
         const showViewState = (index: number): boolean => editProductTagIndex !== index;
 
@@ -337,9 +341,11 @@ function MyTagsForm({currentSpace, allGroupedTagFilterOptions}: Props): JSX.Elem
                     );
                 })}
                 <AddNewTagRow
+                    disabled={!showEditButtons()}
                     addNewButtonLabel="Product Tag"
                     tagType={tagType}
                     onSave={addProductTag}
+                    onAddingTag={setIsAddingNewTag}
                 />
                 {confirmDeleteModal}
             </div>
