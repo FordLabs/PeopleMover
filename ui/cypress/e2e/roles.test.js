@@ -63,6 +63,8 @@ describe('Roles', () => {
         });
 
         cy.closeModal();
+
+        cy.selectOptionFromReactSelect('[data-testid=filters]', mockRole);
     });
 
     it('Filter people by role', () => {
