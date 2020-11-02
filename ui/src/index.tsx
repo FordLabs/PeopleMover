@@ -93,51 +93,51 @@ function isUnsupportedBrowser(): boolean {
     return isSafari || isIE || isEdge;
 }
 
-if (isUnsupportedBrowser()) {
-    ReactDOM.render(<UnsupportedBrowserPage/>, document.getElementById('root'));
-} else {
-    Axios.get(`/api/config`,
-        {headers: { 'Content-Type': 'application/json'}}
-    ).then( (response) => {
+// if (isUnsupportedBrowser()) {
+//     ReactDOM.render(<UnsupportedBrowserPage/>, document.getElementById('root'));
+// } else {
+Axios.get(`/api/config`,
+    {headers: { 'Content-Type': 'application/json'}}
+).then( (response) => {
 
-        window.runConfig = Object.freeze(response.data);
+    window.runConfig = Object.freeze(response.data);
 
-        ReactDOM.render(
-            <Provider store={store}>
-                <Router>
-                    <Switch>
+    ReactDOM.render(
+        <Provider store={store}>
+            <Router>
+                <Switch>
 
-                        <Route exact path="/">
-                            <LandingPage/>
-                        </Route>
+                    <Route exact path="/">
+                        <LandingPage/>
+                    </Route>
 
-                        <Route exact path={'/adfs/catch'}>
-                            <OAuthRedirect redirectUrl={'/user/dashboard'}/>
-                        </Route>
+                    <Route exact path={'/adfs/catch'}>
+                        <OAuthRedirect redirectUrl={'/user/dashboard'}/>
+                    </Route>
 
-                        <AuthenticatedRoute exact path={'/user/login'}>
-                            <RedirectWrapper redirectUrl={'/user/dashboard'}/>
-                        </AuthenticatedRoute>
+                    <AuthenticatedRoute exact path={'/user/login'}>
+                        <RedirectWrapper redirectUrl={'/user/dashboard'}/>
+                    </AuthenticatedRoute>
 
-                        <AuthenticatedRoute exact path="/user/dashboard">
-                            <SpaceDashboard/>
-                        </AuthenticatedRoute>
+                    <AuthenticatedRoute exact path="/user/dashboard">
+                        <SpaceDashboard/>
+                    </AuthenticatedRoute>
 
-                        <AuthorizedRoute exact path="/:teamName">
-                            <PeopleMover/>
-                        </AuthorizedRoute>
+                    <AuthorizedRoute exact path="/:teamName">
+                        <PeopleMover/>
+                    </AuthorizedRoute>
 
-                        <Route path="/error/404">
-                            <Error404Page/>
-                        </Route>
+                    <Route path="/error/404">
+                        <Error404Page/>
+                    </Route>
 
-                        <Route>
-                            <Redirect to={`/error/404`} />
-                        </Route>
-                    </Switch>
-                </Router>
-            </Provider>,
-            document.getElementById('root')
-        );
-    });
-}
+                    <Route>
+                        <Redirect to={`/error/404`} />
+                    </Route>
+                </Switch>
+            </Router>
+        </Provider>,
+        document.getElementById('root')
+    );
+});
+// }
