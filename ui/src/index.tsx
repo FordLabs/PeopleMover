@@ -36,7 +36,6 @@ import OAuthRedirect from './ReusableComponents/OAuthRedirect';
 import {AuthenticatedRoute} from './Auth/AuthenticatedRoute';
 import RedirectWrapper from './ReusableComponents/RedirectWrapper';
 import Axios from 'axios';
-import UnsupportedBrowserPage from './UnsupportedBrowserPage/UnsupportedBrowserPage';
 
 let reduxDevToolsExtension: Function | undefined = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
 let reduxDevToolsEnhancer: Function | undefined;
@@ -77,25 +76,6 @@ export interface RunConfig {
     adfs_resource: string;
 }
 
-function isUnsupportedBrowser(): boolean {
-    // Safari 3.0+ "[object HTMLElementConstructor]"
-    // @ts-ignore
-    // eslint-disable-next-line no-undef
-    var isSafari = /constructor/i.test(window.HTMLElement) || (function(p): boolean { return p.toString() === '[object SafariRemoteNotification]'; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
-
-    // Internet Explorer 6-11
-    // @ts-ignore
-    var isIE = /*@cc_on!@*/!!document.documentMode;
-
-    // Edge 20+
-    var isEdge = !isIE && !!window.StyleMedia;
-
-    return isSafari || isIE || isEdge;
-}
-
-// if (isUnsupportedBrowser()) {
-//     ReactDOM.render(<UnsupportedBrowserPage/>, document.getElementById('root'));
-// } else {
 Axios.get(`/api/config`,
     {headers: { 'Content-Type': 'application/json'}}
 ).then( (response) => {
@@ -140,4 +120,3 @@ Axios.get(`/api/config`,
         document.getElementById('root')
     );
 });
-// }
