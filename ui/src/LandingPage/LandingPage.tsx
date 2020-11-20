@@ -33,7 +33,7 @@ function LandingPage(): JSX.Element {
     );
 
     return (
-        <>
+        <main>
             <div className="landingPageContainer">
                 <div className="landingPageInfoContainer">
                     <PeopleMoverLogo />
@@ -52,7 +52,7 @@ function LandingPage(): JSX.Element {
                     alt=""/>
             </div>
             <img className="landingPageBackground" src={LandingPageBackground} alt=""/>
-        </>
+        </main>
     );
 }
 export default LandingPage;
