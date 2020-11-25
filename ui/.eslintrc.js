@@ -33,7 +33,7 @@ module.exports = {
         'react-redux/mapDispatchToProps-prefer-shorthand': 0,
         '@typescript-eslint/ban-ts-ignore': 0,
         'no-console': 0,
-        'curly': 0
+        'curly': 0,
     },
     settings: {
         react: {

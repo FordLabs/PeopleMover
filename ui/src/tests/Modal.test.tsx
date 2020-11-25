@@ -47,7 +47,7 @@ describe('Modal', () => {
     });
 
     it('should close the modal when the background is clicked', () => {
-        fireEvent.click(comp.getByTestId('modalContainer'));
+        fireEvent.click(comp.getByTestId('modalBackgroundContainer'));
         expect(mockedCloseFunction).toHaveBeenCalled();
     });
 

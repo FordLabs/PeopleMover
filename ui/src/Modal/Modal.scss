@@ -18,8 +18,9 @@
 @import '../Application/Styleguide/Colors.scss';
 @import './Form.scss';
 
-.modalContainer {
-    position: fixed;
+
+.modalBackground {
+    position: absolute;
     left: 0;
     top: 0;
     width: 100%;
@@ -27,6 +28,15 @@
     background-color: rgba(black, 0.8);
     z-index: 9;
     overflow-y: auto;
+}
+
+.modalContainer {
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
 }
 
 .modalDialogContainer {

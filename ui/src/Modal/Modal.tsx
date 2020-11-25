@@ -18,7 +18,6 @@
 import React, {useEffect, useState} from 'react';
 import {JSX} from '@babel/types';
 import ConfirmationModal, {ConfirmationModalProps} from './ConfirmationModal';
-import FocusRing from '../FocusRing';
 
 interface ModalProps {
     modalForm: JSX.Element | null;
@@ -34,6 +33,20 @@ function Modal({
 }: ModalProps): JSX.Element | null {
     const [shouldShowConfirmCloseModal, setShouldShowConfirmCloseModal] = useState<boolean>(false);
     const [confirmCloseModal, setConfirmCloseModal] = useState<JSX.Element | null>(null);
+
+    const onKeyDown = (event: KeyboardEvent): void => {
+        if (event.key === 'Escape' && modalForm) {
+            close();
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('keydown', onKeyDown, false);
+
+        return (): void => {
+            document.removeEventListener('keydown', onKeyDown, false);
+        };
+    }, [modalForm]);
 
     useEffect(() => {
         let bodyOverflowState = 'unset';
@@ -74,37 +87,37 @@ function Modal({
             {setShouldShowConfirmCloseModal: setShouldShowConfirmCloseModal}
         );
         return (
-            <div className="modalContainer" data-testid="modalContainer"
-                onClick={close}
-                onKeyDown={(e): void => {
-                    if (e.key === 'Escape') close();
-                }}>
-                <div className="modalDialogContainer">
-                    <div className="modalPopupContainer"
-                        data-testid="modalPopupContainer"
-                        onClick={(e): void => {
-                            e.stopPropagation();
-                            FocusRing.turnOffWhenClicking();
-                        }}
-                        onKeyDown={(e): void => {
-                            e.stopPropagation();
-                            FocusRing.turnOnWhenTabbing(e);
-                        }}>
-                        <input type="text" aria-hidden={true} className="hiddenInputField"/>
-                        <div className="modalTitleAndCloseButtonContainer">
-                            <div className="modalTitleSpacer"/>
-                            <div className="modalTitle">{title}</div>
-                            <button className="material-icons closeButton"
-                                onClick={close}
-                                data-testid="modalCloseButton">
-                                close
-                            </button>
+            <>
+                <div
+                    aria-modal
+                    aria-labelledby={title}
+                    tabIndex={-1}
+                    role="dialog"
+                    className="modalContainer"
+                    data-testid="modalContainer">
+                    <div className="modalDialogContainer">
+                        <div className="modalPopupContainer"
+                            data-testid="modalPopupContainer">
+                            <div className="modalTitleAndCloseButtonContainer">
+                                <div className="modalTitleSpacer"/>
+                                <div className="modalTitle">{title}</div>
+                                <button
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                    className="material-icons closeButton"
+                                    onClick={close}
+                                    data-testid="modalCloseButton">
+                                    close
+                                </button>
+                            </div>
+                            {customModalForm ? customModalForm : modalForm}
+                            {confirmCloseModal}
                         </div>
-                        {customModalForm ? customModalForm : modalForm}
-                        {confirmCloseModal}
                     </div>
                 </div>
-            </div>
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+                <div className="modalBackground" onClick={close} data-testid="modalBackgroundContainer" />
+            </>
         );
     } else {
         return null;
