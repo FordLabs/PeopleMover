@@ -28,6 +28,10 @@ $spaceTileWidth: 400px;
   grid-gap: 32px;
   margin-top: 50px;
   padding: 88px;
+
+  .spaceListTitle {
+    display: none;
+  }
 }
 
 .createNewSpaceButton {
