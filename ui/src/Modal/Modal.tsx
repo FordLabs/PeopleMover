@@ -18,6 +18,7 @@
 import React, {useEffect, useState} from 'react';
 import {JSX} from '@babel/types';
 import ConfirmationModal, {ConfirmationModalProps} from './ConfirmationModal';
+import FocusLock from 'react-focus-lock';
 
 interface ModalProps {
     modalForm: JSX.Element | null;
@@ -88,33 +89,33 @@ function Modal({
         );
         return (
             <>
-                <div
-                    aria-modal
-                    aria-labelledby={title}
-                    tabIndex={-1}
-                    role="dialog"
+                <FocusLock
+                    as="div"
                     className="modalContainer"
-                    data-testid="modalContainer">
-                    <div className="modalDialogContainer">
-                        <div className="modalPopupContainer"
-                            data-testid="modalPopupContainer">
-                            <div className="modalTitleAndCloseButtonContainer">
-                                <div className="modalTitleSpacer"/>
-                                <div className="modalTitle">{title}</div>
-                                <button
-                                    data-dismiss="modal"
-                                    aria-label="Close"
-                                    className="material-icons closeButton"
-                                    onClick={close}
-                                    data-testid="modalCloseButton">
-                                    close
-                                </button>
-                            </div>
-                            {customModalForm ? customModalForm : modalForm}
-                            {confirmCloseModal}
+                    lockProps={{
+                        'aria-modal': true,
+                        'aria-labelledby': title,
+                        'data-testid': 'modalContainer',
+                        role: 'dialog',
+                        tabIndex: -1,
+                    }}
+                >
+                    <div className="modalPopupContainer" data-testid="modalPopupContainer">
+                        <div className="modalTitleAndCloseButtonContainer">
+                            <div className="modalTitle">{title}</div>
+                            <button
+                                data-dismiss="modal"
+                                aria-label="Close"
+                                className="material-icons closeButton"
+                                onClick={close}
+                                data-testid="modalCloseButton">
+                                close
+                            </button>
                         </div>
+                        {customModalForm ? customModalForm : modalForm}
+                        {confirmCloseModal}
                     </div>
-                </div>
+                </FocusLock>
                 {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
                 <div className="modalBackground" onClick={close} data-testid="modalBackgroundContainer" />
             </>
