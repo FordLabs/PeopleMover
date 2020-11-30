@@ -32,7 +32,7 @@ function SpaceSelectionTabs({
     setCurrentModal,
 }: SpaceSelectionTabsProps): JSX.Element {
     return (
-        <div className="spaceSelectionContainer">
+        <aside className="spaceSelectionContainer">
             <Calendar/>
             <div className="spaceFiller"/>
             <button className="selectionTabButton tab"
@@ -53,7 +53,7 @@ function SpaceSelectionTabs({
                 <i className="material-icons">add</i>
                 Add Person
             </button>
-        </div>
+        </aside>
     );
 }
 

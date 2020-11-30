@@ -60,7 +60,7 @@ function SortedByList({ products, productSortBy}: Props): JSX.Element {
     }
 
     return (
-        <div className="productListSortedContainer" data-testid="productListSortedContainer">
+        <main className="productListSortedContainer" data-testid="productListSortedContainer">
             {sortedProducts && sortedProducts.map((product: Product) => {
                 return (
                     <span key={product.id}>
@@ -71,7 +71,7 @@ function SortedByList({ products, productSortBy}: Props): JSX.Element {
                 );
             })}
             <NewProductButton />
-        </div>
+        </main>
     );
 }
 

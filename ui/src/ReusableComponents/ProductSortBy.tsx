@@ -60,13 +60,13 @@ function ProductSortBy({
 
     return (
         <div className="sortByDropdownContainer" data-testid="sortBy">
-            <label htmlFor="sortby-dropdown" className="dropdown-label">Sort By:</label>
+            <label htmlFor="sortby-dropdown-input" className="dropdown-label">Sort By:</label>
             <Select
                 styles={sortByStyle}
                 id="sortby-dropdown"
                 className="dropdown sortby-dropdown"
                 classNamePrefix="product-sort-by"
-                inputId="sortby-dropdown"
+                inputId="sortby-dropdown-input"
                 options={sortByOptions}
                 value={originalSortOption}
                 onChange={(value): void => {

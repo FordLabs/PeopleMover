@@ -119,7 +119,7 @@ function GroupedByList({
     }
 
     return (
-        <div className="productListGroupedContainer" data-testid="productListGroupedContainer">
+        <main className="productListGroupedContainer" data-testid="productListGroupedContainer">
             {productGroupList.traits.map((trait: Tag) => {
                 return (
                     <span key={trait.id}>
@@ -137,7 +137,7 @@ function GroupedByList({
                     useGrayBackground
                     productFilterFunction={productGroupList.filterByNoTraitFunction}/>
             }
-        </div>
+        </main>
     );
 }
 

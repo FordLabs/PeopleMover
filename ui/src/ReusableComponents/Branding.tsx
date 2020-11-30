@@ -28,7 +28,7 @@ function Branding({
     brand,
 }: BrandingProps): JSX.Element {
 
-    return (<div className={'branding-container'}>
+    return (<footer className={'branding-container'}>
         <p className={'branding-message'}>{message}</p>
         <img className={'branding-image'}
             src={require('../Application/Assets/fordlabs_logo.svg')}
@@ -36,7 +36,7 @@ function Branding({
             width="20"
             height="20"/>
         <p className={'branding-message'}>{brand}</p>
-    </div>);
+    </footer>);
 }
 
 export default Branding;

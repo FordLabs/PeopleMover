@@ -122,13 +122,13 @@ function PeopleMover({
                     <SpaceSelectionTabs/>
                     <div className="productAndAccordionContainer">
                         <ProductList/>
-                        <div className="accordionContainer">
+                        <section className="accordionContainer">
                             <div className="accordionHeaderContainer">
                                 <UnassignedDrawerContainer/>
                                 <ProductGraveyard/>
                                 <ReassignedDrawer/>
                             </div>
-                        </div>
+                        </section>
                     </div>
                     <CurrentModal/>
                 </div>

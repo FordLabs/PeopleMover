@@ -78,7 +78,7 @@ function SpaceDashboard({
 
     function WelcomeMessage(): JSX.Element {
         return (
-            <main className="welcomeMessageContainer">
+            <div className="welcomeMessageContainer" >
                 <h1 className="welcomeMessageTitle">Welcome to PeopleMover!</h1>
                 <h2 className="welcomeMessageSubtitle">Get started by creating your own space.</h2>
                 <p className="welcomeMessageParagraph">
@@ -86,13 +86,13 @@ function SpaceDashboard({
                     you’ll have to ask the owner to share it with you.
                 </p>
                 <NewSpaceButton/>
-            </main>
+            </div>
         );
     }
 
     function SpaceTileGrid(): JSX.Element {
         return (
-            <main className="userSpaceItemContainer">
+            <main id="main" className="userSpaceItemContainer" role="main">
                 <h1 className="spaceListTitle">Space List</h1>
                 {
                     userSpaces.map((space, index) => {
