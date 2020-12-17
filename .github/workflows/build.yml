@@ -22,6 +22,8 @@ jobs:
       - name: Increment version
         run: npm version patch
         working-directory: ./ui
+      - name: Commit version
+        run: git commit -am "Increment version number"
       - name: Print version
         run: cat package.json
         working-directory: ./ui
