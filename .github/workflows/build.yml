@@ -19,6 +19,9 @@ jobs:
       - name: Increment version
         run: npm version patch
         working-directory: ./ui
+      - name: Print version
+        run: cat package.json
+        working-directory: ./ui
       - name: Copy version to meta.json
         run: npm run generate-build-version
         working-directory: ./ui
