@@ -25,6 +25,9 @@ jobs:
       - name: Print version
         run: cat package.json
         working-directory: ./ui
+      - name: Print git status
+        run: git status
+        working-directory: ./ui
       - name: Copy version to meta.json
         run: npm run generate-build-version
         working-directory: ./ui
