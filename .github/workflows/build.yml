@@ -22,6 +22,8 @@ jobs:
       - name: Increment version
         run: npm version patch
         working-directory: ./ui
+      - name: Set users
+        run: git config --global user.email "you@example.com" ; git config --global user.name "Your Name"
       - name: Commit version
         run: git commit -am "Increment version number"
       - name: Print version
