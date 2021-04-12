@@ -12,4 +12,5 @@ class EnvironmentConfiguration {
     var adfs_url_template: String = ""
     var adfs_client_id: String = ""
     var adfs_resource: String = ""
+    var employee_id_validation_regex: String = ""
 }

@@ -73,6 +73,7 @@ export interface RunConfig {
     adfs_url_template: string;
     adfs_client_id: string;
     adfs_resource: string;
+    employee_id_validation_regex: string;
 }
 
 window.addEventListener('keydown', FocusRing.turnOnWhenTabbing);

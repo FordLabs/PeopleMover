@@ -33,7 +33,7 @@ import Creatable from 'react-select/creatable';
 import {reactSelectStyles} from '../ModalFormComponents/ReactSelectStyles';
 import {InputActionMeta, Props} from 'react-select';
 import {Option} from '../CommonTypes/Option';
-import {validate, nameSplitPattern, userIdPattern} from '../Utils/UserIdValidator';
+import {validate, nameSplitPattern} from '../Utils/UserIdValidator';
 
 const inviteEditorsStyle = {
     ...reactSelectStyles,
@@ -109,11 +109,12 @@ function InviteEditorsFormSection({collapsed, currentSpace, currentUser, closeMo
     };
 
     useEffect(() => {
+        let employeeIdRegex = new RegExp(window.runConfig.employee_id_validation_regex);
         const enable = (invitedUserIds.length > 0 && inputValue.trim().length === 0)
-                || (!!inputValue.trim().match(userIdPattern))
+                || (!!inputValue.trim().match(employeeIdRegex))
                 // TODO: Remove as part of Card #180
                 || (invitedUserEmails.length > 0);
-        const errMsg = inputValue.length > 1 && !inputValue.match(userIdPattern);
+        const errMsg = inputValue.length > 1 && !inputValue.match(employeeIdRegex);
         setEnableInviteButton(enable);
         setShowErrorMessage(errMsg);
     }, [invitedUserIds, inputValue,

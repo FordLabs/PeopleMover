@@ -29,6 +29,7 @@ import {UserSpaceMapping} from '../Space/UserSpaceMapping';
 import configureStore from 'redux-mock-store';
 import PeopleClient from '../People/PeopleClient';
 import RedirectClient from '../Utils/RedirectClient';
+import {RunConfig} from '../index';
 
 describe('Invite Editors Form', function() {
     const cookies = new Cookies();
@@ -40,6 +41,9 @@ describe('Invite Editors Form', function() {
         Axios.post = jest.fn(x => Promise.resolve({} as AxiosResponse)) as any;
         cookies.set('accessToken', '123456');
         RedirectClient.redirect = jest.fn();
+
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        window.runConfig = {employee_id_validation_regex: '^[a-zA-Z][a-zA-Z0-9]{1,8}$'} as RunConfig;
     });
 
     describe('feature toggle enabled', () => {

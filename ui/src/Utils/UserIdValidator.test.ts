@@ -16,8 +16,14 @@
  */
 
 import {emptyValidateUserResult, makeOption, validate} from './UserIdValidator';
+import {RunConfig} from '../index';
 
 describe('User Id Validation', () => {
+
+    beforeEach(() => {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        window.runConfig = {employee_id_validation_regex: '^[a-zA-Z][a-zA-Z0-9]{1,8}$'} as RunConfig;
+    });
 
     it('should return empty for an empty string', function() {
         expect(validate('')).toEqual(emptyValidateUserResult);

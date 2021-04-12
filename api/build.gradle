@@ -124,6 +124,7 @@ task pushBranchAPI(type: Exec) {
                 "-Pcf.environment.react.app.auth_enabled=true",
                 "-Pcf.environment.react.app.invite_users_to_space_enabled=true",
                 "-Pcf.environment.react.app.adfs_enabled=true",
+                "-Pcf.environment.react.app.employee_id_validation_regex=/^[a-zA-Z][a-zA-Z0-9]{1,8}\$/",
                 "-Pcf.environment.spring.security.oauth2.resourceserver.jwt.issuer-uri=${project.properties['peoplemoverResourceserverJwtIssuer']}",
                 "-Pcf.environment.react.app.url=https://engineeringEnv.${project.properties['peoplemoverReactAppUrl']}",
                 "-Pcf.environment.react.app.adfs_url_template=${project.properties['peoplemoverAdfsUrlTemplate']}",
