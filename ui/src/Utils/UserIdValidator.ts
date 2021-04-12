@@ -32,10 +32,11 @@ export function makeOption(name: string): Option {
 }
 
 export const nameSplitPattern = new RegExp(/,|;|\s/);
-export const userIdPattern = new RegExp(/^[a-zA-Z][a-zA-Z0-9]{1,8}$/);
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+let employeeIdValidationRegex = process.env.REACT_APP_EMPLOYEE_ID_VALIDATION_REGEX!;
+export const userIdPattern = new RegExp(employeeIdValidationRegex);
 
 export function validate(input: string): ValidateUserResult {
-
     if (input.length > 0 ) {
         const names = input.split(nameSplitPattern);
         const validUserIds = names.filter(name => name.length > 0)
