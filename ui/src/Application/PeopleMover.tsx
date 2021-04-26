@@ -53,6 +53,8 @@ import MatomoEvents from '../Matomo/MatomoEvents';
 import {AvailableModals} from '../Modal/AvailableModals';
 import Counter from '../ReusableComponents/Counter';
 import {AllGroupedTagFilterOptions} from '../SortingAndFiltering/FilterConstants';
+import {useFeatureFlag} from '@fordlabs/react-flagsmith';
+import NewBadge from '../ReusableComponents/NewBadge';
 
 const BAD_REQUEST = 400;
 const FORBIDDEN = 403;
@@ -66,10 +68,15 @@ export interface PeopleMoverProps {
     allGroupedTagFilterOptions: Array<AllGroupedTagFilterOptions>;
 
     fetchProducts(): Array<Product>;
+
     fetchProductTags(): Array<ProductTag>;
+
     fetchLocations(): Array<LocationTag>;
+
     setPeople(people: Array<Person>): Array<Person>;
+
     setCurrentModal(modalState: CurrentModalState): void;
+
     setSpace(space: Space): void;
 
 }
@@ -157,6 +164,8 @@ function PeopleMover({
     }, [viewingDate, currentSpace]);
     /* eslint-enable */
 
+    const countNewTag = useFeatureFlag('count_new_tag');
+
     if (redirect) {
         return redirect;
     }
@@ -165,12 +174,15 @@ function PeopleMover({
         !hasProductsAndFilters()
             ? <></>
             : <div className="App">
-                <a href="#main-content-landing-target" className="skipToProducts" data-testid="skipToContentLink">Skip to main content</a>
+                <a href="#main-content-landing-target" className="skipToProducts" data-testid="skipToContentLink">Skip
+                        to main content</a>
                 <Header/>
                 <main>
                     <SubHeader/>
                     <div className="headerSpacer" id="main-content-landing-target"/>
-                    <Counter products={products} allGroupedTagFilterOptions={allGroupedTagFilterOptions} viewingDate={viewingDate}/>
+                    <Counter products={products} allGroupedTagFilterOptions={allGroupedTagFilterOptions}
+                        viewingDate={viewingDate}/>
+                    {countNewTag ? <NewBadge/> : <></>}
                     <div className="productAndAccordionContainer">
                         <ProductList/>
                         {!isReadOnly && (
@@ -194,7 +206,7 @@ function PeopleMover({
                     <CurrentModal/>
                 </main>
                 <footer>
-                    <Branding />
+                    <Branding/>
                 </footer>
             </div>
     );

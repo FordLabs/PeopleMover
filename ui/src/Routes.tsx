@@ -28,6 +28,7 @@ import PeopleMover from './Application/PeopleMover';
 import ErrorPageTemplate from './Application/ErrorPageTemplate';
 import AnimatedImageSrc from './Application/Assets/404.gif';
 import errorImageSrc from './Application/Assets/403.png';
+import {FlagsmithProvider} from '@fordlabs/react-flagsmith';
 
 export const dashboardUrl = '/user/dashboard';
 const notFoundUrl = '/error/404';
@@ -54,15 +55,28 @@ function Routes(): JSX.Element {
                 </AuthenticatedRoute>
 
                 <AuthorizedRoute exact path="/:teamName">
-                    <PeopleMover/>
+                    <FlagsmithProvider
+                        api={'https://flagsmith-api.apps.pd01e.edc1.cf.ford.com/api/v1/'}
+                        environmentID={'UWS4dyPFvtJDN9ngsdsQs3'}
+                        defaultFlags={{
+                        // eslint-disable-next-line @typescript-eslint/camelcase
+                            count_new_tag: {
+                                enabled: true,
+                            },
+                        }}
+                    >
+                        <PeopleMover/>
+                    </FlagsmithProvider>
                 </AuthorizedRoute>
 
                 <Route path={notFoundUrl}>
-                    <ErrorPageTemplate errorGraphic={AnimatedImageSrc} errorText="We can&apos;t seem to find the page you&apos;re looking for. Please double check your link."/>
+                    <ErrorPageTemplate errorGraphic={AnimatedImageSrc}
+                        errorText="We can&apos;t seem to find the page you&apos;re looking for. Please double check your link."/>
                 </Route>
 
                 <Route path={forbiddenUrl}>
-                    <ErrorPageTemplate errorGraphic={errorImageSrc} errorText="You don&apos;t have access to this page. Please request access."/>
+                    <ErrorPageTemplate errorGraphic={errorImageSrc}
+                        errorText="You don&apos;t have access to this page. Please request access."/>
                 </Route>
 
                 <Route>
